@@ -1,6 +1,8 @@
 using System.Net;
+using System.Net.Http.Json;
 using Authfix.HttpMock;
 using FluentAssertions;
+using HttpMock.Tests.Dto;
 
 namespace HttpMock.Tests;
 
@@ -8,7 +10,21 @@ namespace HttpMock.Tests;
 public class HttpMockTests
 {
     [TestMethod]
-    public async Task Should_GetResponse_When_FileExists()
+    public async Task Should_ReturnTypedObjects_When_FileExists()
+    {
+        // Arrange
+        var mockHttpMessageHandler = new MockHttpMessageHandler();
+        var httpClient = new HttpClient(mockHttpMessageHandler);
+        
+        // Act
+        var response = await httpClient.GetFromJsonAsync<IEnumerable<UserDto>>("http://localhost/api/users");
+        
+        // Assert
+        response!.Count().Should().Be(2);
+    }
+    
+    [TestMethod]
+    public async Task Should_ReturnOkCode_When_FileExists()
     {
         // Arrange
         var mockHttpMessageHandler = new MockHttpMessageHandler();
@@ -18,11 +34,11 @@ public class HttpMockTests
         var response = await httpClient.GetAsync("http://localhost/api/users");
         
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [TestMethod]
-    public async Task Should_ReturnNotFound_When_FileNotExists()
+    public async Task Should_ReturnNotFoundCode_When_FileNotExists()
     {
         // Arrange
         var mockHttpMessageHandler = new MockHttpMessageHandler();
@@ -33,5 +49,19 @@ public class HttpMockTests
         
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+    
+    [TestMethod]
+    public async Task Should_ReturnCreatedCode_When_FileExists()
+    {
+        // Arrange
+        var mockHttpMessageHandler = new MockHttpMessageHandler();
+        var httpClient = new HttpClient(mockHttpMessageHandler);
+        
+        // Act
+        var response = await httpClient.PostAsync("http://localhost/api/users", new StringContent(@""" { id: 1 } """));
+        
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
     }
 }

@@ -21,9 +21,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Responses\GET_200_API_USERS.json">
+      <None Remove="Responses\GET_200_API_USERS.json" />
+      <EmbeddedResource Include="Responses\GET_200_API_USERS.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      </EmbeddedResource>
+      <None Remove="Responses\POST_201_API_USERS.json" />
+      <EmbeddedResource Include="Responses\POST_201_API_USERS.json" />
     </ItemGroup>
 
 </Project>
