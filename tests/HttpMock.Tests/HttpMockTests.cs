@@ -64,4 +64,20 @@ public class HttpMockTests
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
     }
+    
+    [TestMethod]
+    public async Task Should_CallScenarioSuccessfully_When_FileExists()
+    {
+        // Arrange
+        var mockHttpMessageHandler = new MockHttpMessageHandler(100);
+        var httpClient = new HttpClient(mockHttpMessageHandler);
+        
+        // Act
+        var firstResponse = await httpClient.GetAsync("http://localhost/api/scenari/2");
+        var secondResponse = await httpClient.GetAsync("http://localhost/api/scenari/2");
+        
+        // Assert
+        firstResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        secondResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
 }
