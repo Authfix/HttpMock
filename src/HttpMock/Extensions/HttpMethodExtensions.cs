@@ -1,13 +1,15 @@
-﻿namespace Authfix.HttpMock.Extensions;
+﻿using System.Net;
+
+namespace Authfix.HttpMock.Extensions;
 
 internal static class HttpMethodExtensions
 {
-    public static int ToDefaultResultCode(this HttpMethod method)
+    public static HttpStatusCode ToDefaultResultCode(this HttpMethod method)
     {
         return method switch
         {
-            { } when method == HttpMethod.Post => 201,
-            _ => 200
+            { } when method == HttpMethod.Post => HttpStatusCode.Created,
+            _ => HttpStatusCode.OK
         };
     }
 }

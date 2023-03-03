@@ -27,9 +27,9 @@
 
     <ItemGroup>
       <None Remove="Responses\API_USERS_GET_200.json" />
-      <EmbeddedResource Include="Responses\API_USERS_GET_200.json" />
+      <EmbeddedResource Include="Responses\API_USERS_GET.json"/>
       <None Remove="Responses\API_USERS_POST_201.json" />
-      <EmbeddedResource Include="Responses\API_USERS_POST_201.json" />
+        <EmbeddedResource Include="Responses\API_USERS_POST.json"/>
       <None Remove="Responses\100_API_SCENARI_GET_200.json" />
       <EmbeddedResource Include="Responses\100_API_SCENARI_2_GET_200.json" />
       <None Remove="Responses\100_API_TASKS_GET_200.json" />

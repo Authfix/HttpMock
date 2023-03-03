@@ -4,9 +4,9 @@ namespace Authfix.HttpMock.Providers;
 
 public class ResourceContentProvider : IContentProvider
 {
-    private readonly Assembly _sourceAssembly;
     private readonly string _responsesFolder;
-    
+    private readonly Assembly _sourceAssembly;
+
     /// <summary>
     /// Initialize a new <see cref="ResourceContentProvider"/>.
     /// </summary>
@@ -18,7 +18,7 @@ public class ResourceContentProvider : IContentProvider
         _sourceAssembly = sourceAssembly ?? throw new ArgumentNullException(nameof(sourceAssembly));
         _responsesFolder = responsesFolder ?? throw new ArgumentNullException(nameof(responsesFolder));
     }
-    
+
     /// <inheritdoc cref="ReadAsync"/>
     public Task<Stream> ReadAsync(string resource)
     {
@@ -32,5 +32,13 @@ public class ResourceContentProvider : IContentProvider
         }
 
         return Task.FromResult(resourceStream);
+    }
+
+    /// <inheritdoc cref="GetListAsync"/>
+    public Task<IEnumerable<string>> GetListAsync()
+    {
+        var resourceNames = _sourceAssembly.GetManifestResourceNames();
+
+        return Task.FromResult<IEnumerable<string>>(resourceNames.ToList());
     }
 }
